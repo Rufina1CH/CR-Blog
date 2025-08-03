@@ -17,7 +17,7 @@ const Header = () => (
             to="/"
             className="font-medium px-4 py-2 rounded-md text-gray-700 hover:bg-purple-100 hover:text-purple-700 transition" style={{ padding: '0.5rem' }}
           >
-            Explore
+            Home
           </Link>
           <Link
             to="/create"

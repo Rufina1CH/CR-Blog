@@ -10,6 +10,31 @@ import {
 import { Button } from "../components/ui/button";
 import { format } from "date-fns";
 
+const defaultPosts = [
+  {
+    id: "1",
+    title: "Top 5 Skincare Trends That Are Taking Over 2025",
+    author: "Ananya",
+    createdAt: new Date().toISOString(),
+    content:
+      "From skin cycling to barrier-repair serums, the beauty industry is leaning toward skin health over harsh treatments. Discover what ingredients are trending and how to personalize your skincare routine for long-term results.",
+    tags: ["beauty", "skincare", "glow", "selfcare", "trends", "makeup"],
+    image:
+      "https://fastly.picsum.photos/id/21/3008/2008.jpg?hmac=T8DSVNvP-QldCew7WD4jj_S3mWwxZPqdF0CNPksSko4",
+  },
+  {
+    id: "2",
+    title: "The Rise of Edge Computing in 2025",
+    author: "Rohan Mehta",
+    createdAt: new Date().toISOString(),
+    content:
+      "Edge computing is revolutionizing how data is processed, especially with IoT and AI. Instead of relying on centralized cloud servers, edge devices now process data locally, reducing latency and improving speed. This article explores its applications in smart homes, healthcare, and autonomous vehicles.",
+    tags: ["technology", "edge computing", "IoT", "AI", "cloud", "innovation"],
+    image:
+      "https://fastly.picsum.photos/id/4/5000/3333.jpg?hmac=ghf06FdmgiD0-G4c9DdNM8RnBIN7BO0-ZGEw47khHP4",
+  },
+];
+
 const BlogDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -17,8 +42,9 @@ const BlogDetail = () => {
 
   useEffect(() => {
     const savedPosts = JSON.parse(localStorage.getItem("blogPosts")) || [];
-    const foundPost = savedPosts.find((p) => p.id === Number(id));
-    setPost(foundPost || null);
+    const allPosts = [...defaultPosts, ...savedPosts];
+    const found = allPosts.find((p) => String(p.id) === String(id));
+    setPost(found || null);
   }, [id]);
 
   if (!post) {
@@ -42,7 +68,6 @@ const BlogDetail = () => {
       </div>
 
       <Card className="p-6 md:p-10 shadow-xl bg-white rounded-xl">
-        {/* Image */}
         {post.image ? (
           <div className="w-full mb-8">
             <img
@@ -57,7 +82,6 @@ const BlogDetail = () => {
           </div>
         )}
 
-        {/* Content */}
         <CardHeader className="p-0 text-center mb-4">
           <CardTitle className="text-3xl font-bold text-gray-900">
             {post.title}
@@ -74,7 +98,6 @@ const BlogDetail = () => {
           </div>
         </CardContent>
 
-        {/* Tags */}
         <CardFooter className="p-0 mt-6 flex justify-center flex-wrap gap-2">
           {post.tags?.map((tag, idx) => (
             <span
