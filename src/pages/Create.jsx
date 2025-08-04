@@ -52,7 +52,14 @@ const Create = () => {
         <CardContent className="p-2">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="title" className="block mb-1 text-sm text-gray-700 font-medium">Title</Label>
+             <Label
+  htmlFor="title"
+  className="block mb-1 text-sm text-gray-700 font-medium"
+  style={{ padding: "0.5rem" }}
+>
+  Title
+</Label>
+
               <Input
                 id="title"
                 value={formData.title}
@@ -62,7 +69,7 @@ const Create = () => {
               />
             </div>
             <div>
-              <Label htmlFor="content" className="block mb-1 text-sm text-gray-700 font-medium">Content</Label>
+              <Label htmlFor="content" className="block mb-1 text-sm text-gray-700 font-medium"  style={{ padding: "0.5rem" }}>Content</Label>
               <Textarea
                 id="content"
                 rows={6}
@@ -74,7 +81,7 @@ const Create = () => {
               {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
             </div>
             <div>
-              <Label htmlFor="tags" className="block mb-1 text-sm text-gray-700 font-medium">Tags</Label>
+              <Label htmlFor="tags" className="block mb-1 text-sm text-gray-700 font-medium"  style={{ padding: "0.5rem" }}>Tags</Label>
               <Input
                 id="tags"
                 value={formData.tags}
@@ -83,7 +90,7 @@ const Create = () => {
               />
             </div>
             <div>
-              <Label htmlFor="author" className="block mb-1 text-sm text-gray-700 font-medium">Author</Label>
+              <Label htmlFor="author" className="block mb-1 text-sm text-gray-700 font-medium"  style={{ padding: "0.5rem" }}>Author</Label>
               <Input
                 id="author"
                 value={formData.author}
@@ -93,7 +100,7 @@ const Create = () => {
               />
             </div>
             <div>
-              <Label htmlFor="image" className="block mb-1 text-sm text-gray-700 font-medium">Image URL (Optional)</Label>
+              <Label htmlFor="image" className="block mb-1 text-sm text-gray-700 font-medium"  style={{ padding: "0.5rem" }}>Image URL (Optional)</Label>
               <Input
                 id="image"
                 value={formData.image}
