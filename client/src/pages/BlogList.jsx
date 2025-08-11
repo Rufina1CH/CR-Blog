@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -15,42 +14,28 @@ const getFormattedDate = (dateString) => {
   return isNaN(parsed) ? "Unknown date" : format(parsed, "PPP");
 };
 
-const defaultPosts = [
-  {
-    id: "1",
-    title: "Top 5 Skincare Trends That Are Taking Over 2025",
-    author: "Ananya",
-    createdAt: new Date().toISOString(),
-    content:
-      "From skin cycling to barrier-repair serums, the beauty industry is leaning toward skin health over harsh treatments. Discover what ingredients are trending and how to personalize your skincare routine for long-term results.",
-    tags: ["beauty", "skincare", "glow", "selfcare", "trends", "makeup"],
-    image:
-      "https://fastly.picsum.photos/id/21/3008/2008.jpg?hmac=T8DSVNvP-QldCew7WD4jj_S3mWwxZPqdF0CNPksSko4",
-  },
-  {
-    id: "2",
-    title: "The Rise of Edge Computing in 2025",
-    author: "Rohan Mehta",
-    createdAt: new Date().toISOString(),
-    content:
-      "Edge computing is revolutionizing how data is processed, especially with IoT and AI. Instead of relying on centralized cloud servers, edge devices now process data locally, reducing latency and improving speed. This article explores its applications in smart homes, healthcare, and autonomous vehicles.",
-    tags: ["technology", "edge computing", "IoT", "AI", "cloud", "innovation"],
-    image:
-      "https://fastly.picsum.photos/id/4/5000/3333.jpg?hmac=ghf06FdmgiD0-G4c9DdNM8RnBIN7BO0-ZGEw47khHP4",
-  },
-];
-
 const BlogList = () => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("blogPosts")) || [];
-    if (saved.length === 0) {
-      localStorage.setItem("blogPosts", JSON.stringify(defaultPosts));
-      setPosts(defaultPosts);
-    } else {
-      setPosts(saved);
-    }
+   const fetchPosts = async () => {
+  try {
+    const res = await fetch("http://localhost:8000/api/posts");
+    if (!res.ok) throw new Error("Failed to fetch posts");
+    const data = await res.json();
+    console.log("Fetched posts:", data);  // Add this line
+    setPosts(data);
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+    fetchPosts();
   }, []);
 
   return (
@@ -59,7 +44,12 @@ const BlogList = () => {
         <h1 className="text-3xl font-bold text-center text-white mb-10">
           Blog Posts
         </h1>
-        {posts.length === 0 ? (
+
+        {loading ? (
+          <p className="text-center text-gray-400">Loading...</p>
+        ) : error ? (
+          <p className="text-center text-red-500">{error}</p>
+        ) : posts.length === 0 ? (
           <p className="text-center text-gray-400">No blog posts found.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -69,14 +59,18 @@ const BlogList = () => {
                 className="overflow-hidden shadow-md bg-white flex flex-col h-full"
               >
                 <div className="w-full h-[240px] bg-gray-100 flex justify-center items-center overflow-hidden rounded-t-md">
-                  <img
-                    src={
-                      post.image ||
-                      "https://via.placeholder.com/600x300?text=No+Image"
-                    }
-                    alt={post.title}
-                    className="max-w-full max-h-full object-contain"
-                  />
+<img
+  src={
+    post.image || "https://placehold.co/600x300?text=No+Image"
+  }
+  alt={post.title}
+  className="max-w-full max-h-full object-contain"
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = "https://placehold.co/600x300?text=No+Image";
+  }}
+/>
+
                 </div>
 
                 <CardHeader style={{ padding: "0.5rem" }}>

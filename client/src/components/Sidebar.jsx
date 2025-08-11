@@ -21,6 +21,10 @@ const Sidebar = () => {
     Explore
   </NavLink>
 
+   <NavLink to="/myposts" className={linkClasses} style={{ padding: '0.5rem' }}>
+  MyPosts
+</NavLink>
+
 </nav>
 
     </aside>
